@@ -51,6 +51,17 @@ export type { IndicatorConfig };
 export { analyzeSignal } from "./signal";
 export { buildTradePlan } from "./tradePlan";
 export { computeAtr, trueRange } from "./atr";
-export { findSwingPoints, nearestResistance, nearestSupport } from "./levels";
+export { computeLpmMa, type LpmMaPoint } from "./lpmMa";
+export { detectDivergence, type DivergenceResult, type DivergenceType } from "./divergence";
+export { analyzeVsa, type VsaAnalysisResult, type VsaPatternType } from "./vsa";
+export { evaluateSignalConfidence, type SignalConfidenceResult } from "./signalConfidence";
+export { computeBandarMatrix, computeBandarMovementSeries, type BandarStatus, type BandarMatrixPeriod } from "./bandarMatrix";
+export {
+  calculateAccumulationSupports,
+  type AccumulationLevel,
+  type SupportAccumulationResult,
+} from "./supportAccumulation";
 export * from "./types";
 export * from "./interpret";
+
+

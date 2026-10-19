@@ -18,6 +18,14 @@ export interface ChartPalette {
   lpm: string;
   intensity: string;
   rotation: string;
+  /** Histogram bar — versi translucent dari solid di atas */
+  lpmBar: string;
+  lpmBarOversold: string;
+  lpmBarOverbought: string;
+  intensityBar: string;
+  intensityBarHigh: string;
+  rotationBar: string;
+  rotationBarDown: string;
 }
 
 export const CHART_PALETTES: Record<Theme, ChartPalette> = {
@@ -34,6 +42,13 @@ export const CHART_PALETTES: Record<Theme, ChartPalette> = {
     lpm: "#0284c7",
     intensity: "#d97706",
     rotation: "#7c3aed",
+    lpmBar: "rgba(2, 132, 199, 0.55)",
+    lpmBarOversold: "rgba(5, 150, 105, 0.65)",
+    lpmBarOverbought: "rgba(225, 29, 72, 0.65)",
+    intensityBar: "rgba(217, 119, 6, 0.5)",
+    intensityBarHigh: "rgba(234, 88, 12, 0.75)",
+    rotationBar: "rgba(124, 58, 237, 0.5)",
+    rotationBarDown: "rgba(225, 29, 72, 0.5)",
   },
   dark: {
     text: "#94a3b8",
@@ -48,5 +63,12 @@ export const CHART_PALETTES: Record<Theme, ChartPalette> = {
     lpm: "#38bdf8",
     intensity: "#f59e0b",
     rotation: "#a78bfa",
+    lpmBar: "rgba(56, 189, 248, 0.55)",
+    lpmBarOversold: "rgba(16, 185, 129, 0.65)",
+    lpmBarOverbought: "rgba(244, 63, 94, 0.65)",
+    intensityBar: "rgba(245, 158, 11, 0.55)",
+    intensityBarHigh: "rgba(251, 146, 60, 0.80)",
+    rotationBar: "rgba(167, 139, 250, 0.55)",
+    rotationBarDown: "rgba(244, 63, 94, 0.55)",
   },
 };

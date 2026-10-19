@@ -171,3 +171,17 @@ describe("computeIndicators", () => {
     expect(result.latest!.lpm).toBeGreaterThan(50);
   });
 });
+
+describe("classifyBandarStatus", () => {
+  it("mengklasifikasikan status bandar matrix dengan benar", async () => {
+    const { classifyBandarStatus } = await import("@/lib/indicators/bandarMatrix");
+    expect(classifyBandarStatus(70, 4)).toBe("Big Acc");
+    expect(classifyBandarStatus(58, 1.5)).toBe("Normal Acc");
+    expect(classifyBandarStatus(53, 0.5)).toBe("Small Acc");
+    expect(classifyBandarStatus(50, 0)).toBe("Neutral");
+    expect(classifyBandarStatus(47, -0.5)).toBe("Small Dist");
+    expect(classifyBandarStatus(42, -1.5)).toBe("Normal Dist");
+    expect(classifyBandarStatus(30, -4)).toBe("Big Dist");
+  });
+});
+

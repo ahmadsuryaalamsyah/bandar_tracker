@@ -11,6 +11,7 @@ import {
   interpretIntensity,
   interpretLpm,
   interpretRotation,
+  calculateAccumulationSupports,
 } from "@/lib/indicators";
 import { configForProfile, TRADE_PROFILES, type TradeProfileId } from "@/lib/indicators/config";
 import { formatCompact, formatDate, formatNumber, formatPrice, formatRatio, formatSignedNumber, formatSignedPercent } from "@/lib/utils/format";
@@ -18,8 +19,12 @@ import { INTERVAL_LABELS, RANGE_LABELS } from "@/lib/utils/labels";
 import { setTab, TABS, useAppTab } from "@/lib/utils/nav";
 import { EmptyState, ErrorState, LoadingState } from "./AsyncState";
 import { BacktestPanel } from "./BacktestPanel";
+import { BandarDetectorSection } from "./BandarDetectorSection";
+import { SmartConfluenceSection } from "./SmartConfluenceSection";
+import { SupportAccumulationSection } from "./SupportAccumulationSection";
 import { CrashArbPanel } from "./CrashArbPanel";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { IndicatorBarChart } from "./IndicatorBarChart";
 import { IndicatorHistoryChart } from "./IndicatorHistoryChart";
 import { IndicatorPanel } from "./IndicatorPanel";
 import { MarketStatePanel } from "./MarketStatePanel";
@@ -84,6 +89,11 @@ export function Dashboard() {
     [data, config],
   );
 
+  const supports = useMemo(() => {
+    if (!data || !indicators) return null;
+    return calculateAccumulationSupports(data.bars, indicators.series, 60);
+  }, [data, indicators]);
+
   const summary = useMemo(() => {
     if (!data || data.bars.length === 0) return null;
     const last = data.bars[data.bars.length - 1];
@@ -140,30 +150,69 @@ export function Dashboard() {
 
                 {status === "success" && data && summary && indicators && (
                   <>
-                    <Panel padded={false}>
-                      <div className="flex flex-wrap items-center justify-between gap-4 p-4">
-                        <div className="min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <h2 className="text-xl font-bold tracking-tight text-fg">{data.ticker}</h2>
-                            {data.name && <span className="truncate text-sm text-fg-muted">{data.name}</span>}
-                          </div>
-                          <p className="mt-1 text-xs text-fg-subtle">
-                            {data.exchange} · {data.currency} · {INTERVAL_LABELS[data.interval as Interval]} ·{" "}
-                            {RANGE_LABELS[data.range as Range]} · {formatNumber(data.bars.length)} bar · sumber{" "}
-                            {data.source}
-                          </p>
-                        </div>
+                    <Panel padded={false} className="overflow-hidden border border-line/80 shadow-panel">
+                      <div className="relative p-5">
+                        {/* Background glow decoration */}
+                        <div className="absolute top-0 right-0 -mr-16 -mt-16 h-48 w-48 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-                        <div className="flex items-center gap-5">
-                          <div className="text-right">
-                            <div className="text-2xl font-bold text-fg tnum">
-                              {formatPrice(summary.last.c, data.currency)}
+                        <div className="flex flex-wrap items-center justify-between gap-6">
+                          {/* Left: Ticker & Metadata */}
+                          <div className="flex items-start gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/25 via-accent/10 to-transparent border border-accent/30 text-accent font-black text-lg shadow-sm">
+                              {data.ticker.slice(0, 2)}
                             </div>
-                            <div className={`text-sm font-semibold tnum ${changeUp ? "text-up" : "text-down"}`}>
-                              {formatSignedNumber(summary.change)} ({formatSignedPercent(summary.changePct)})
+                            <div>
+                              <div className="flex flex-wrap items-center gap-2.5">
+                                <h2 className="text-2xl font-black tracking-tight text-fg">{data.ticker}</h2>
+                                <span className="rounded-md border border-line bg-surface-elevated px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-fg-subtle">
+                                  {data.exchange}
+                                </span>
+                                {data.name && <span className="text-sm font-medium text-fg-muted">· {data.name}</span>}
+                              </div>
+                              <p className="mt-1 text-xs text-fg-subtle">
+                                {data.currency} · {INTERVAL_LABELS[data.interval as Interval]} ·{" "}
+                                {RANGE_LABELS[data.range as Range]} · {formatNumber(data.bars.length)} Bar · Sumber {data.source}
+                              </p>
                             </div>
                           </div>
-                          <SignalBadge signal={indicators.signal} />
+
+                          {/* Center: Quick Stats Pills */}
+                          <div className="hidden lg:flex items-center gap-4 rounded-xl border border-line/60 bg-surface-elevated/40 px-4 py-2 text-xs backdrop-blur-sm">
+                            <div>
+                              <div className="text-[10px] text-fg-subtle uppercase tracking-wider font-semibold">Open</div>
+                              <div className="font-mono font-bold text-fg">{formatPrice(summary.last.o, data.currency)}</div>
+                            </div>
+                            <div className="h-6 w-px bg-line/60" />
+                            <div>
+                              <div className="text-[10px] text-fg-subtle uppercase tracking-wider font-semibold">High</div>
+                              <div className="font-mono font-bold text-emerald-400">{formatPrice(summary.last.h, data.currency)}</div>
+                            </div>
+                            <div className="h-6 w-px bg-line/60" />
+                            <div>
+                              <div className="text-[10px] text-fg-subtle uppercase tracking-wider font-semibold">Low</div>
+                              <div className="font-mono font-bold text-rose-400">{formatPrice(summary.last.l, data.currency)}</div>
+                            </div>
+                            <div className="h-6 w-px bg-line/60" />
+                            <div>
+                              <div className="text-[10px] text-fg-subtle uppercase tracking-wider font-semibold">Volume</div>
+                              <div className="font-mono font-bold text-fg">{formatCompact(summary.last.v)}</div>
+                            </div>
+                          </div>
+
+                          {/* Right: Big Price & Signal Badge */}
+                          <div className="flex items-center gap-5">
+                            <div className="text-right">
+                              <div className="text-3xl font-black text-fg tnum tracking-tight">
+                                {formatPrice(summary.last.c, data.currency)}
+                              </div>
+                              <div className="mt-0.5 inline-flex items-center gap-1.5 text-xs font-bold tnum">
+                                <span className={changeUp ? "text-emerald-400" : "text-rose-400"}>
+                                  {formatSignedNumber(summary.change)} ({formatSignedPercent(summary.changePct)})
+                                </span>
+                              </div>
+                            </div>
+                            <SignalBadge signal={indicators.signal} />
+                          </div>
                         </div>
                       </div>
                     </Panel>
@@ -189,9 +238,30 @@ export function Dashboard() {
                           action={<span className="text-xs text-fg-subtle">Geser & zoom untuk menjelajah</span>}
                         >
                           <div className="p-2">
-                            <PriceVolumeChart bars={data.bars} resetKey={resetKey} height={380} />
+                            <PriceVolumeChart bars={data.bars} resetKey={resetKey} height={350} supports={supports} />
+                          </div>
+                          {/* Indikator bar — langsung di bawah chart harga */}
+                          <div className="border-t border-line/50">
+                            <IndicatorBarChart series={indicators.series} resetKey={resetKey} height={255} />
                           </div>
                         </Panel>
+
+                        {/* Level Support & Zona Akumulasi */}
+                        <SupportAccumulationSection supports={supports} />
+
+                        {/* Bandar Detector Matrix & Chartbit Movement (Stockbit Style) */}
+                        <BandarDetectorSection
+                          bars={data.bars}
+                          indicators={indicators.series}
+                          resetKey={resetKey}
+                        />
+
+                        {/* Smart Confluence Engine (Divergensi, VSA, Win Rate Historis) */}
+                        <SmartConfluenceSection
+                          bars={data.bars}
+                          indicators={indicators.series}
+                          marketState={indicators.signal}
+                        />
 
                         <div className="grid gap-4 md:grid-cols-3">
                           <IndicatorPanel
@@ -234,14 +304,14 @@ export function Dashboard() {
 
                         <Panel
                           title="Histori Indikator"
-                          subtitle="Skala 0–100, netral di 50"
+                          subtitle="Garis LPM/Intensity/Rotation, skala 0–100"
                           action={
                             <span className="text-xs text-fg-subtle tnum">
                               {formatNumber(indicators.series.length)} titik
                             </span>
                           }
                         >
-                          <IndicatorHistoryChart series={indicators.series} resetKey={resetKey} height={260} />
+                          <IndicatorHistoryChart series={indicators.series} resetKey={resetKey} height={220} />
                         </Panel>
                       </>
                     )}

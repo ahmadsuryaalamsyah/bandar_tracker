@@ -24,8 +24,11 @@ export function NavBar() {
   };
 
   return (
-    <nav aria-label="Bagian aplikasi" className="overflow-x-auto">
-      <div role="tablist" className="flex gap-1">
+    <nav aria-label="Bagian aplikasi" className="overflow-x-auto py-2">
+      <div
+        role="tablist"
+        className="inline-flex items-center gap-1.5 rounded-xl border border-line/60 bg-surface-elevated/40 p-1 shadow-inner backdrop-blur-md"
+      >
         {TABS.map((tab, index) => {
           const selected = tab.id === active;
           return (
@@ -43,10 +46,10 @@ export function NavBar() {
               title={tab.hint}
               onClick={() => setTab(tab.id)}
               onKeyDown={(event) => onKeyDown(event, index)}
-              className={`border-b-2 px-3 py-2.5 text-sm font-medium whitespace-nowrap transition ${
+              className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                 selected
-                  ? "border-accent text-fg"
-                  : "border-transparent text-fg-subtle hover:border-line-strong hover:text-fg-muted"
+                  ? "bg-accent text-accent-fg shadow-md shadow-accent/20"
+                  : "text-fg-subtle hover:bg-surface-elevated hover:text-fg"
               }`}
             >
               {tab.label}
