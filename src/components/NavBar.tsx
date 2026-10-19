@@ -24,10 +24,10 @@ export function NavBar() {
   };
 
   return (
-    <nav aria-label="Bagian aplikasi" className="overflow-x-auto py-2">
+    <nav aria-label="Bagian aplikasi" className="overflow-x-auto py-2 no-scrollbar -mx-3 px-3 sm:mx-0 sm:px-0">
       <div
         role="tablist"
-        className="inline-flex items-center gap-1.5 rounded-xl border border-line/60 bg-surface-elevated/40 p-1 shadow-inner backdrop-blur-md"
+        className="inline-flex items-center gap-1 sm:gap-1.5 rounded-xl border border-line/60 bg-surface-elevated/40 p-1 shadow-inner backdrop-blur-md"
       >
         {TABS.map((tab, index) => {
           const selected = tab.id === active;
@@ -46,7 +46,7 @@ export function NavBar() {
               title={tab.hint}
               onClick={() => setTab(tab.id)}
               onKeyDown={(event) => onKeyDown(event, index)}
-              className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
+              className={`rounded-lg px-3 py-1.5 sm:px-3.5 sm:py-1.5 text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
                 selected
                   ? "bg-accent text-accent-fg shadow-md shadow-accent/20"
                   : "text-fg-subtle hover:bg-surface-elevated hover:text-fg"

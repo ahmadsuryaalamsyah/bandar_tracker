@@ -28,7 +28,11 @@ function Segmented<T extends string>({
   label: string;
 }) {
   return (
-    <div role="group" aria-label={label} className="inline-flex rounded-xl border border-line bg-panel-soft p-0.5">
+    <div
+      role="group"
+      aria-label={label}
+      className="inline-flex max-w-full overflow-x-auto no-scrollbar rounded-xl border border-line bg-panel-soft p-0.5"
+    >
       {options.map((option) => {
         const active = option.value === value;
         return (
@@ -39,7 +43,7 @@ function Segmented<T extends string>({
             aria-pressed={active}
             disabled={disabled}
             onClick={() => onChange(option.value)}
-            className={`rounded-[9px] px-3 py-1.5 text-xs font-medium transition disabled:cursor-not-allowed ${
+            className={`rounded-[9px] px-2.5 sm:px-3 py-1.5 text-xs font-medium whitespace-nowrap transition disabled:cursor-not-allowed ${
               active
                 ? "bg-accent text-accent-fg shadow-sm"
                 : "text-fg-muted hover:bg-panel-hover hover:text-fg"
@@ -71,9 +75,9 @@ export function TickerForm({ ticker, interval, range, busy, onSubmit }: TickerFo
         event.preventDefault();
         submit(draft, draftInterval, draftRange);
       }}
-      className="rounded-2xl border border-line bg-panel p-4 shadow-panel backdrop-blur-sm"
+      className="rounded-2xl border border-line bg-panel p-3.5 sm:p-4 shadow-panel backdrop-blur-sm"
     >
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+      <div className="flex flex-col gap-3.5 sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
         <label className="block lg:w-64">
           <span className="mb-1.5 block text-[11px] font-semibold tracking-widest text-fg-subtle uppercase">
             Kode Saham
@@ -89,8 +93,8 @@ export function TickerForm({ ticker, interval, range, busy, onSubmit }: TickerFo
           />
         </label>
 
-        <div className="flex flex-wrap items-end gap-4">
-          <div>
+        <div className="flex flex-wrap items-end gap-3 sm:gap-4">
+          <div className="min-w-0 max-w-full">
             <span className="mb-1.5 block text-[11px] font-semibold tracking-widest text-fg-subtle uppercase">
               Timeframe
             </span>
@@ -103,7 +107,7 @@ export function TickerForm({ ticker, interval, range, busy, onSubmit }: TickerFo
             />
           </div>
 
-          <div>
+          <div className="min-w-0 max-w-full">
             <span className="mb-1.5 block text-[11px] font-semibold tracking-widest text-fg-subtle uppercase">
               Rentang
             </span>
@@ -123,14 +127,14 @@ export function TickerForm({ ticker, interval, range, busy, onSubmit }: TickerFo
           <button
             type="submit"
             disabled={busy || draft.trim().length === 0}
-            className="h-9 rounded-xl bg-accent px-6 text-sm font-semibold text-accent-fg transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 w-full sm:w-auto rounded-xl bg-accent px-6 text-sm font-semibold text-accent-fg transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50"
           >
             {busy ? "Memuat…" : "Analisis"}
           </button>
         </div>
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-line pt-3">
+      <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-1.5 border-t border-line pt-2.5 sm:pt-3">
         <span className="mr-1 text-xs text-fg-subtle">Contoh:</span>
         {SAMPLE_TICKERS.map((sample) => (
           <button

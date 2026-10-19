@@ -10,7 +10,7 @@ export function SupportAccumulationSection({ supports }: SupportAccumulationSect
   if (!supports) return null;
 
   return (
-    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-5 transition-all">
+    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-3.5 sm:p-5 transition-all">
       {/* Header */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-line/60 pb-3">
         <div>
@@ -37,7 +37,7 @@ export function SupportAccumulationSection({ supports }: SupportAccumulationSect
       </div>
 
       {/* Grid Kartu Support */}
-      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid gap-2.5 sm:gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
         {/* Kartu 1: Zona Akumulasi Ideal */}
         <div className="flex flex-col justify-between rounded-lg border border-emerald-500/30 bg-emerald-500/10 p-3">
           <span className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">

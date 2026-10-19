@@ -67,7 +67,7 @@ export function GoodToBuySection({
       title="Kandidat Long"
       subtitle={`Data harian · profil ${TRADE_PROFILES[profile].label} · horizon ${horizonLabel}`}
       action={
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-between sm:justify-end gap-2 w-full sm:w-auto">
           <span className="text-xs text-fg-subtle tnum">
             {progress
               ? `memindai ${progress.scanned}/${progress.total}…`

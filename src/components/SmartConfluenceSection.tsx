@@ -44,7 +44,7 @@ export function SmartConfluenceSection({
   };
 
   return (
-    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-5 transition-all">
+    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-3.5 sm:p-5 transition-all">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-line/60 pb-3">
         <div>
           <div className="flex items-center gap-2">
@@ -75,10 +75,10 @@ export function SmartConfluenceSection({
       </div>
 
       {/* 3 Kartu Pilar Analisis */}
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-3 sm:gap-4 md:grid-cols-3">
         {/* Pilar 1: Deteksi Divergensi */}
         <div
-          className={`flex flex-col justify-between rounded-lg border p-3.5 transition-all ${
+          className={`flex flex-col justify-between rounded-lg border p-3 sm:p-3.5 transition-all ${
             divergence.hasDivergence
               ? divergence.type?.includes("bullish")
                 ? "border-emerald-500/40 bg-emerald-500/10"
@@ -114,8 +114,8 @@ export function SmartConfluenceSection({
           </div>
 
           {divergence.hasDivergence && divergence.pricePivots && (
-            <div className="mt-3 flex items-center justify-between border-t border-line/40 pt-2 text-[11px] text-fg-subtle font-mono">
-              <span>Swing Harga: {divergence.pricePivots[0]} → {divergence.pricePivots[1]}</span>
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-1 border-t border-line/40 pt-2 text-[10px] sm:text-[11px] text-fg-subtle font-mono">
+              <span>Swing: {divergence.pricePivots[0]} → {divergence.pricePivots[1]}</span>
               <span>{divergence.divergenceAgeBars} bar lalu</span>
             </div>
           )}
@@ -123,7 +123,7 @@ export function SmartConfluenceSection({
 
         {/* Pilar 2: Volume Spread Analysis (VSA) */}
         <div
-          className={`flex flex-col justify-between rounded-lg border p-3.5 transition-all ${
+          className={`flex flex-col justify-between rounded-lg border p-3 sm:p-3.5 transition-all ${
             vsa.hasPattern
               ? vsa.actionBias === "Bullish"
                 ? "border-emerald-500/40 bg-emerald-500/10"
@@ -158,13 +158,13 @@ export function SmartConfluenceSection({
             </p>
           </div>
 
-          <div className="mt-3 border-t border-line/40 pt-2 text-[11px] text-fg-subtle">
+          <div className="mt-3 border-t border-line/40 pt-2 text-[10px] sm:text-[11px] text-fg-subtle">
             {vsa.hasPattern ? "Signifikansi: " + vsa.significance.toUpperCase() : "Volume & spread berjalan normal"}
           </div>
         </div>
 
         {/* Pilar 3: Win Rate Historis Saham Ini */}
-        <div className="flex flex-col justify-between rounded-lg border border-line bg-surface-elevated/40 p-3.5">
+        <div className="flex flex-col justify-between rounded-lg border border-line bg-surface-elevated/40 p-3 sm:p-3.5">
           <div>
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold text-fg-muted uppercase tracking-wider">
@@ -184,7 +184,7 @@ export function SmartConfluenceSection({
             </p>
           </div>
 
-          <div className="mt-3 flex items-center justify-between border-t border-line/40 pt-2 text-[11px] text-fg-subtle font-mono">
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-1 border-t border-line/40 pt-2 text-[10px] sm:text-[11px] text-fg-subtle font-mono">
             <span>Sukses: {confidence.successfulSignals}/{confidence.totalHistoricalSignals} Setup</span>
             <span>Target: +4.0%</span>
           </div>
@@ -193,12 +193,12 @@ export function SmartConfluenceSection({
 
       {/* Rincian Faktor Konfluensi */}
       {confidence.factors.length > 0 && (
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-line/50 pt-2 text-xs">
-          <span className="font-semibold text-fg-subtle">Faktor Pendukung:</span>
+        <div className="mt-3 flex flex-wrap items-center gap-1.5 sm:gap-2 border-t border-line/50 pt-2 text-xs">
+          <span className="font-semibold text-fg-subtle text-[11px] sm:text-xs">Faktor Pendukung:</span>
           {confidence.factors.map((f, i) => (
             <span
               key={i}
-              className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-medium border ${
+              className={`inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[10px] sm:text-[11px] font-medium border ${
                 f.impact === "positive"
                   ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25"
                   : f.impact === "negative"

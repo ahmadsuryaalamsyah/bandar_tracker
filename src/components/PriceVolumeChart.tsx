@@ -199,8 +199,8 @@ export function PriceVolumeChart({
     <div className="w-full">
       {/* Toolbar Status Support di Atas Chart */}
       {supports && (
-        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line/40 px-3 py-2 text-xs">
-          <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-2 sm:px-3 py-2 text-xs border-b border-line/40">
+          <div className="flex items-center justify-between sm:justify-start gap-2">
             <span className="font-semibold text-fg-muted">Level Akumulasi:</span>
             <button
               type="button"
@@ -216,24 +216,24 @@ export function PriceVolumeChart({
           </div>
 
           {/* Quick Badges */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
             {supports.support1 && (
-              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-400 border border-emerald-500/25">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-emerald-400 border border-emerald-500/25">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shrink-0" />
                 S1: Rp {supports.support1.price.toLocaleString()}
-                <span className="font-mono text-[10px] opacity-80">(-{supports.support1.distancePct}%)</span>
+                <span className="font-mono text-[9px] sm:text-[10px] opacity-80">(-{supports.support1.distancePct}%)</span>
               </span>
             )}
             {supports.support2 && (
-              <span className="inline-flex items-center gap-1 rounded-md bg-cyan-500/10 px-2 py-0.5 text-[11px] font-semibold text-cyan-400 border border-cyan-500/25">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                S2 (Modal): Rp {supports.support2.price.toLocaleString()}
-                <span className="font-mono text-[10px] opacity-80">(-{supports.support2.distancePct}%)</span>
+              <span className="inline-flex items-center gap-1 rounded-md bg-cyan-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-cyan-400 border border-cyan-500/25">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-cyan-400 shrink-0" />
+                S2<span className="hidden sm:inline"> (Modal)</span>: Rp {supports.support2.price.toLocaleString()}
+                <span className="font-mono text-[9px] sm:text-[10px] opacity-80">(-{supports.support2.distancePct}%)</span>
               </span>
             )}
             {supports.stopLoss && (
-              <span className="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-[11px] font-semibold text-rose-400 border border-rose-500/25">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-rose-400" />
+              <span className="inline-flex items-center gap-1 rounded-md bg-rose-500/10 px-2 py-0.5 text-[10px] sm:text-[11px] font-semibold text-rose-400 border border-rose-500/25">
+                <span className="inline-block h-1.5 w-1.5 rounded-full bg-rose-400 shrink-0" />
                 CL: Rp {supports.stopLoss.price.toLocaleString()}
               </span>
             )}

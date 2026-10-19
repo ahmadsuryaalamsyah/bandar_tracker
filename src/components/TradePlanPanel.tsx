@@ -26,7 +26,12 @@ function Level({
   tone: string;
   align: "left" | "center" | "right";
 }) {
-  const alignment = align === "left" ? "items-start" : align === "right" ? "items-end" : "items-center";
+  const alignment =
+    align === "left"
+      ? "items-start"
+      : align === "right"
+        ? "items-start sm:items-end"
+        : "items-start sm:items-center";
   return (
     <div className={`flex flex-col ${alignment}`}>
       <span className="text-[10px] font-medium tracking-widest text-fg-subtle uppercase">{label}</span>

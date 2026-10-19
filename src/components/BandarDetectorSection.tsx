@@ -178,7 +178,7 @@ export function BandarDetectorSection({
   }, [resetKey, series, theme]);
 
   return (
-    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-5 transition-all">
+    <div className="rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md p-3.5 sm:p-5 transition-all">
       {/* Header Panel */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-line/60 pb-3">
         <div>
@@ -194,7 +194,7 @@ export function BandarDetectorSection({
         </div>
 
         {latest && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-xs text-fg-subtle">Tren Smart Money:</span>
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
@@ -216,14 +216,16 @@ export function BandarDetectorSection({
 
       {/* Bandar Matrix Grid (1D, 3D, 5D, 10D, 20D) */}
       <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-5">
-        {matrix.map((item) => {
+        {matrix.map((item, idx) => {
           const style = getBandarStatusStyle(item.status);
           const isUp = item.priceChangePct >= 0;
 
           return (
             <div
               key={item.label}
-              className={`flex flex-col justify-between rounded-lg border p-2.5 transition-all ${style.bg} ${style.border}`}
+              className={`flex flex-col justify-between rounded-lg border p-2 sm:p-2.5 transition-all ${style.bg} ${style.border} ${
+                idx === 4 ? "col-span-2 sm:col-span-1" : ""
+              }`}
             >
               <div className="flex items-center justify-between">
                 <span className="text-xs font-bold text-fg-muted">{item.label}</span>
@@ -235,16 +237,16 @@ export function BandarDetectorSection({
                 </span>
               </div>
 
-              <div className="my-2">
+              <div className="my-1.5 sm:my-2">
                 <span
-                  className={`inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold tracking-wide uppercase ${style.text}`}
+                  className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 sm:px-2 sm:py-1 text-[11px] sm:text-xs font-bold tracking-wide uppercase ${style.text}`}
                 >
-                  <span className={`inline-block h-1.5 w-1.5 rounded-full ${style.dot}`} />
-                  {item.status}
+                  <span className={`inline-block h-1.5 w-1.5 rounded-full shrink-0 ${style.dot}`} />
+                  <span className="truncate">{item.status}</span>
                 </span>
               </div>
 
-              <div className="flex items-center justify-between border-t border-line/40 pt-1 text-[11px] text-fg-subtle">
+              <div className="flex items-center justify-between border-t border-line/40 pt-1 text-[10px] sm:text-[11px] text-fg-subtle">
                 <span>LPM {item.avgLpm}</span>
                 <span className="font-mono tnum">
                   {item.netFlow >= 0 ? "+" : ""}
@@ -258,10 +260,10 @@ export function BandarDetectorSection({
 
       {/* Chartbit Subchart: Bandar Movement & MA 10 */}
       <div className="rounded-lg border border-line/70 bg-surface-elevated/40 p-2">
-        <div className="mb-1 flex items-center justify-between px-2 text-xs">
-          <div className="flex items-center gap-4">
-            <span className="font-medium text-fg">Bandar Movement & Volume</span>
-            <div className="flex items-center gap-3 text-[11px]">
+        <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between px-1 sm:px-2 text-xs">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-4">
+            <span className="font-semibold text-fg">Bandar Movement & Volume</span>
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-[11px]">
               <span className="flex items-center gap-1 text-sky-400">
                 <span className="inline-block h-2 w-2 rounded-full bg-sky-400" />
                 Movement Line

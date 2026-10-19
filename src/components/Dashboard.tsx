@@ -120,7 +120,7 @@ export function Dashboard() {
   const changeUp = (summary?.change ?? 0) >= 0;
 
   return (
-    <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+    <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-6">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <h1 className="text-lg font-semibold text-fg">{activeTab.label}</h1>
@@ -151,32 +151,36 @@ export function Dashboard() {
                 {status === "success" && data && summary && indicators && (
                   <>
                     <Panel padded={false} className="overflow-hidden border border-line/80 shadow-panel">
-                      <div className="relative p-5">
+                      <div className="relative p-3.5 sm:p-5">
                         {/* Background glow decoration */}
                         <div className="absolute top-0 right-0 -mr-16 -mt-16 h-48 w-48 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
-                        <div className="flex flex-wrap items-center justify-between gap-6">
-                          {/* Left: Ticker & Metadata */}
-                          <div className="flex items-start gap-4">
-                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/25 via-accent/10 to-transparent border border-accent/30 text-accent font-black text-lg shadow-sm">
+                        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6">
+                          {/* Top / Left: Ticker & Metadata */}
+                          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                            <div className="flex h-10 w-10 sm:h-12 sm:w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-accent/25 via-accent/10 to-transparent border border-accent/30 text-accent font-black text-base sm:text-lg shadow-sm">
                               {data.ticker.slice(0, 2)}
                             </div>
-                            <div>
-                              <div className="flex flex-wrap items-center gap-2.5">
-                                <h2 className="text-2xl font-black tracking-tight text-fg">{data.ticker}</h2>
+                            <div className="min-w-0">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-fg">{data.ticker}</h2>
                                 <span className="rounded-md border border-line bg-surface-elevated px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-fg-subtle">
                                   {data.exchange}
                                 </span>
-                                {data.name && <span className="text-sm font-medium text-fg-muted">· {data.name}</span>}
+                                {data.name && (
+                                  <span className="text-xs sm:text-sm font-medium text-fg-muted truncate max-w-[180px] sm:max-w-none">
+                                    · {data.name}
+                                  </span>
+                                )}
                               </div>
-                              <p className="mt-1 text-xs text-fg-subtle">
+                              <p className="mt-1 text-[11px] sm:text-xs text-fg-subtle">
                                 {data.currency} · {INTERVAL_LABELS[data.interval as Interval]} ·{" "}
                                 {RANGE_LABELS[data.range as Range]} · {formatNumber(data.bars.length)} Bar · Sumber {data.source}
                               </p>
                             </div>
                           </div>
 
-                          {/* Center: Quick Stats Pills */}
+                          {/* Center: Quick Stats Pills for Large Screens */}
                           <div className="hidden lg:flex items-center gap-4 rounded-xl border border-line/60 bg-surface-elevated/40 px-4 py-2 text-xs backdrop-blur-sm">
                             <div>
                               <div className="text-[10px] text-fg-subtle uppercase tracking-wider font-semibold">Open</div>
@@ -200,9 +204,9 @@ export function Dashboard() {
                           </div>
 
                           {/* Right: Big Price & Signal Badge */}
-                          <div className="flex items-center gap-5">
-                            <div className="text-right">
-                              <div className="text-3xl font-black text-fg tnum tracking-tight">
+                          <div className="flex items-center justify-between lg:justify-end gap-4 sm:gap-5 w-full lg:w-auto pt-3 border-t border-line/40 lg:border-0 lg:pt-0">
+                            <div className="text-left lg:text-right">
+                              <div className="text-2xl sm:text-3xl font-black text-fg tnum tracking-tight">
                                 {formatPrice(summary.last.c, data.currency)}
                               </div>
                               <div className="mt-0.5 inline-flex items-center gap-1.5 text-xs font-bold tnum">
@@ -212,6 +216,26 @@ export function Dashboard() {
                               </div>
                             </div>
                             <SignalBadge signal={indicators.signal} />
+                          </div>
+
+                          {/* Mobile / Tablet Quick Stats Strip */}
+                          <div className="grid grid-cols-4 gap-1.5 sm:gap-2 w-full pt-3 border-t border-line/40 text-center lg:hidden">
+                            <div className="rounded-lg bg-surface-elevated/40 p-1.5">
+                              <div className="text-[9px] text-fg-subtle uppercase tracking-wider font-semibold">Open</div>
+                              <div className="font-mono text-xs font-bold text-fg truncate">{formatPrice(summary.last.o, data.currency)}</div>
+                            </div>
+                            <div className="rounded-lg bg-surface-elevated/40 p-1.5">
+                              <div className="text-[9px] text-fg-subtle uppercase tracking-wider font-semibold">High</div>
+                              <div className="font-mono text-xs font-bold text-emerald-400 truncate">{formatPrice(summary.last.h, data.currency)}</div>
+                            </div>
+                            <div className="rounded-lg bg-surface-elevated/40 p-1.5">
+                              <div className="text-[9px] text-fg-subtle uppercase tracking-wider font-semibold">Low</div>
+                              <div className="font-mono text-xs font-bold text-rose-400 truncate">{formatPrice(summary.last.l, data.currency)}</div>
+                            </div>
+                            <div className="rounded-lg bg-surface-elevated/40 p-1.5">
+                              <div className="text-[9px] text-fg-subtle uppercase tracking-wider font-semibold">Vol</div>
+                              <div className="font-mono text-xs font-bold text-fg truncate">{formatCompact(summary.last.v)}</div>
+                            </div>
                           </div>
                         </div>
                       </div>

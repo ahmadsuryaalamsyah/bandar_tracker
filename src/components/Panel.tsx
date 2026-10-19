@@ -27,7 +27,7 @@ export function Panel({
       className={`rounded-2xl border border-line bg-panel shadow-panel backdrop-blur-md transition-all duration-200 ${className}`}
     >
       {hasHeader && (
-        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line/70 px-4 py-3 bg-surface-elevated/20">
+        <header className="flex flex-wrap items-center justify-between gap-3 border-b border-line/70 px-3.5 sm:px-4 py-2.5 sm:py-3 bg-surface-elevated/20">
           <div className="min-w-0">
             {title && <h2 className="text-sm font-semibold tracking-tight text-fg">{title}</h2>}
             {subtitle && <p className="mt-0.5 text-xs text-fg-subtle">{subtitle}</p>}
@@ -35,7 +35,7 @@ export function Panel({
           {action}
         </header>
       )}
-      <div className={padded ? "p-4" : ""}>{children}</div>
+      <div className={padded ? "p-3.5 sm:p-4" : ""}>{children}</div>
     </section>
   );
 }

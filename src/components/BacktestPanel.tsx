@@ -179,7 +179,7 @@ export function BacktestPanel({ status, data, error, onRun }: BacktestPanelProps
           </div>
 
           {recent.length > 0 && (
-            <div className="mt-4 overflow-x-auto">
+            <div className="mt-4 overflow-x-auto no-scrollbar">
               <table className="w-full min-w-[420px] text-left text-xs">
                 <thead>
                   <tr className="border-b border-line text-[10px] tracking-widest text-fg-subtle uppercase">
